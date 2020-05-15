@@ -5,31 +5,24 @@ let ratesBoard = new RatesBoard;
 let moneyManager = new MoneyManager;
 let favoritesWidget = new FavoritesWidget
 
-
-logoutButton.action = () => ApiConnector.logout(response => {
-    if (response.success) {
-        location.reload();
-    } 
-});
-
 let callback = method => response => {
     if (response.success) {
         method(response.data);
     }
 }
 
+function updateTable(data) {
+    ratesBoard.clearTable();
+    ratesBoard.fillTable(data);
+}
+
+let updateStocks = () => ApiConnector.getStocks(callback(updateTable))
+
+logoutButton.action = () => ApiConnector.logout(callback(window.location.reload.bind(window.location)));
 ApiConnector.current(callback(ProfileWidget.showProfile));
 ApiConnector.getFavorites(callback(updateFavorites));
-
-let updateStocks = () => ApiConnector.getStocks(response => {
-    if (response.success) {
-        ratesBoard.clearTable();
-        ratesBoard.fillTable(response.data);
-    }
-});
-
 updateStocks();
-setInterval(updateStocks, 60000);
+setInterval(updateStocks, 600);
 
 function updateFavorites(data) {
     favoritesWidget.clearTable(data);
