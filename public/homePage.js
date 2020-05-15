@@ -22,7 +22,7 @@ logoutButton.action = () => ApiConnector.logout(callback(window.location.reload.
 ApiConnector.current(callback(ProfileWidget.showProfile));
 ApiConnector.getFavorites(callback(updateFavorites));
 updateStocks();
-setInterval(updateStocks, 600);
+setInterval(updateStocks, 60000);
 
 function updateFavorites(data) {
     favoritesWidget.clearTable(data);
