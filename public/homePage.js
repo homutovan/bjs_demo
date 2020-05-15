@@ -3,20 +3,20 @@
 let logoutButton = new LogoutButton;
 let ratesBoard = new RatesBoard;
 let moneyManager = new MoneyManager;
-let favoritesWidget = new FavoritesWidget
+let favoritesWidget = new FavoritesWidget;
 
 let callback = method => response => {
     if (response.success) {
         method(response.data);
     }
-}
+};
 
 function updateTable(data) {
     ratesBoard.clearTable();
     ratesBoard.fillTable(data);
 }
 
-let updateStocks = () => ApiConnector.getStocks(callback(updateTable))
+let updateStocks = () => ApiConnector.getStocks(callback(updateTable));
 
 logoutButton.action = () => ApiConnector.logout(callback(window.location.reload.bind(window.location)));
 ApiConnector.current(callback(ProfileWidget.showProfile));
