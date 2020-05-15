@@ -5,33 +5,31 @@ let ratesBoard = new RatesBoard;
 let moneyManager = new MoneyManager;
 let favoritesWidget = new FavoritesWidget
 
+
 logoutButton.action = () => ApiConnector.logout(response => {
     if (response.success) {
         location.reload();
     } 
 });
 
-ApiConnector.current(response => {
+let callback = method => response => {
     if (response.success) {
-        ProfileWidget.showProfile(response.data);
+        method(response.data);
     }
-});
+}
+
+ApiConnector.current(callback(ProfileWidget.showProfile));
+ApiConnector.getFavorites(callback(updateFavorites));
 
 let updateStocks = () => ApiConnector.getStocks(response => {
     if (response.success) {
-        ratesBoard.clearTable(response.data);
+        ratesBoard.clearTable();
         ratesBoard.fillTable(response.data);
     }
 });
 
 updateStocks();
 setInterval(updateStocks, 60000);
-
-ApiConnector.getFavorites(response => {
-    if (response.success) {
-        updateFavorites(response.data);
-    }
-});
 
 function updateFavorites(data) {
     favoritesWidget.clearTable(data);
