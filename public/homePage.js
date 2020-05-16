@@ -5,11 +5,7 @@ let ratesBoard = new RatesBoard;
 let moneyManager = new MoneyManager;
 let favoritesWidget = new FavoritesWidget;
 
-let callback = method => response => {
-    if (response.success) {
-        method(response.data);
-    }
-};
+let callback = method => response => (response.success) && method(response.data);
 
 function updateTable(data) {
     ratesBoard.clearTable();
@@ -46,3 +42,4 @@ moneyManager.sendMoneyCallback = handler(ProfileWidget.showProfile, moneyManager
 favoritesWidget.addUserCallback = handler(updateFavorites, favoritesWidget, ApiConnector.addUserToFavorites, 'Пользователь успешно добавлен!');
 favoritesWidget.removeUserCallback = handler(updateFavorites, favoritesWidget, ApiConnector.removeUserFromFavorites, 'Пользователь успешно удален!');
 
+console.log(4);
