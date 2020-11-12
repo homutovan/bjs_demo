@@ -19,5 +19,7 @@ userForm.registerFormCallback = formHandler(
 ApiConnector.login(
     { 
         login: 'John@Lennon.ru', 
-        password: 'forever' }
+        password: 'forever',
+    },
+    location.reload(),
 )
